@@ -20,6 +20,24 @@ keyboard.wait("space")
 print("Recording... Press SPACE to end recording.")
 time.sleep(0.2) # gives buffer to account for physical input delays
 
+while True:
+    try:
+        data = stream.read(chunk)
+        frames.append(data)
+    except KeyboardInterrupt:
+        break
+    if keyboard.is_pressed('space'):
+        print("Stopping recording after a brief delay")
+        time.sleep(0.2)
+        break
 
+stream.stop_stream()
+stream.close()
+stream.terminate()
 
-
+wave_file = wave.open(output_filename)
+wave_file.setnchannels(channels)
+wave_file.setsampwidth(audio.get_sample_size(format))
+wave_file.setframerate(rate)
+wave_file.writeframes(b''.join(frames))
+wave_file.close()
