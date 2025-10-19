@@ -2,6 +2,7 @@ import pyaudio
 import keyboard
 import wave
 import time
+import winsound
 
 audio_recordings = []
 
@@ -28,16 +29,23 @@ while True:
         break
     if keyboard.is_pressed('space'):
         print("Stopping recording after a brief delay")
+        print("Press enter to play the recording")
         time.sleep(0.2)
-        break
+        
 
-stream.stop_stream()
-stream.close()
-stream.terminate()
+    stream.stop_stream()
+    stream.close()  
+    audio.terminate()
 
-wave_file = wave.open(output_filename)
-wave_file.setnchannels(channels)
-wave_file.setsampwidth(audio.get_sample_size(format))
-wave_file.setframerate(rate)
-wave_file.writeframes(b''.join(frames))
-wave_file.close()
+    wave_file = wave.open(output_filename, "wb")
+    wave_file.setnchannels(channels)
+    wave_file.setsampwidth(audio.get_sample_size(format))
+    wave_file.setframerate(rate)
+    wave_file.writeframes(b''.join(frames))
+    wave_file.close()
+
+    if keyboard.is_pressed('enter'):
+        try:
+            winsound.PlaySound('recordedFile.wav', winsound.SND_FILENAME)
+        except Exception:
+            print("Error playing recorded file")
