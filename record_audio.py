@@ -28,24 +28,31 @@ while True:
     except KeyboardInterrupt:
         break
     if keyboard.is_pressed('space'):
-        print("Stopping recording after a brief delay")
-        print("Press enter to play the recording")
         time.sleep(0.2)
-        
+        print("Stopping recording after a brief delay")
+        break
 
-    stream.stop_stream()
-    stream.close()  
-    audio.terminate()
+stream.stop_stream()  
+stream.close()  
+audio.terminate()
 
-    wave_file = wave.open(output_filename, "wb")
-    wave_file.setnchannels(channels)
-    wave_file.setsampwidth(audio.get_sample_size(format))
-    wave_file.setframerate(rate)
-    wave_file.writeframes(b''.join(frames))
-    wave_file.close()
+wave_file = wave.open(output_filename, "wb")
+wave_file.setnchannels(channels)
+wave_file.setsampwidth(audio.get_sample_size(format))  
 
-    if keyboard.is_pressed('enter'):
-        try:
-            winsound.PlaySound('recordedFile.wav', winsound.SND_FILENAME)
-        except Exception:
-            print("Error playing recorded file")
+wave_file.setframerate(rate)
+wave_file.writeframes(b''.join(frames))
+wave_file.close()
+
+print("Press enter to play back")
+keyboard.wait('enter')
+  
+if keyboard.is_pressed('enter'):
+    try:
+        winsound.PlaySound('recordedFile.wav', winsound.SND_FILENAME)
+    except Exception as e:
+        print("Error playing recorded file")  
+
+                
+            
+            
