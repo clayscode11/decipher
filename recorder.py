@@ -10,7 +10,7 @@ def record():
     channels = 1
     rate = 44100
     chunk = 1024
-    output_filename = 'recorded_file.wav'
+    output_filename = 'audio_recording.wav'
     file_path = f'audioFiles/{output_filename}'
 
     audio = pyaudio.PyAudio()
