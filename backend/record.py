@@ -1,5 +1,4 @@
 import pyaudio
-import keyboard
 import wave
 import time
 
